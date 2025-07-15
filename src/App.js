@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import ControlledForm from "./components/ControlledForm";
+import UncontrolledForm from "./components/UncontrolledForm";
+import FeedbackList from "./components/FeedbackList";
 
-function App() {
+const App = () => {
+  const [feedbacks, setFeedbacks] = useState([]);
+
+  // Lifecycle: componentDidMount
+  useEffect(() => {
+    const savedFeedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+    setFeedbacks(savedFeedbacks);
+  }, []);
+
+  // Lifecycle: componentDidUpdate
+  useEffect(() => {
+    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+  }, [feedbacks]);
+
+  const addFeedback = (feedback) => {
+    setFeedbacks((prev) => [...prev, feedback]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>User Feedback App</h1>
+      <ControlledForm addFeedback={addFeedback} />
+      <UncontrolledForm addFeedback={addFeedback} />
+      <FeedbackList feedbacks={feedbacks} />
     </div>
   );
-}
+};
 
 export default App;
