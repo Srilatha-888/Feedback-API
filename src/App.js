@@ -6,13 +6,13 @@ import FeedbackList from "./components/FeedbackList";
 const App = () => {
   const [feedbacks, setFeedbacks] = useState([]);
 
-  // Lifecycle: componentDidMount
+
   useEffect(() => {
     const savedFeedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
     setFeedbacks(savedFeedbacks);
   }, []);
 
-  // Lifecycle: componentDidUpdate
+ 
   useEffect(() => {
     localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
   }, [feedbacks]);
